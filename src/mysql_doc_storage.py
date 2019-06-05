@@ -22,7 +22,7 @@ class MySQLDocumentStore:
         start = time.time()
 
         try:
-            # self.session.start_transaction()
+            self.session.start_transaction()
 
             while True:
                 data_chunk = rows.fetchmany(1000)
@@ -32,7 +32,7 @@ class MySQLDocumentStore:
                 result = [{'revisiondpid': int(row[0]), 'expression': row[1]} for row in data_chunk]
                 self.collection.add(result).execute()
 
-            # self.session.commit()
+            self.session.commit()
 
         except Exception as ex:
             print "An error occurred while inserting"
