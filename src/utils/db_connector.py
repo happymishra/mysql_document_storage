@@ -3,6 +3,7 @@ import mysqlx
 from read_config import ConfigRead
 from constants import MYSQL_DB_URL, MONGO_DB_URL
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class DBConnector:
@@ -28,6 +29,10 @@ class DBConnector:
         db_params = self.config_read_obj.get_config_section(db)
 
         return mysqlx.get_session(**db_params)
+
+    def get_mysql_session(self, sql_engine):
+        session_factory = sessionmaker(bind=sql_engine)
+        return scoped_session(session_factory)
 
 
 if __name__ == '__main__':

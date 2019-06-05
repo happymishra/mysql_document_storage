@@ -19,16 +19,6 @@ def get_sli_revision_model(table_name, engine):
 
     class SLIRevision(base):
         revisiondpid = Column(BigInteger, primary_key=True)
-        latestdpid = Column(BigInteger)
-        datapointtype = Column(CHAR)
-        effectivestart = Column(DateTime)
-        effectiveend = Column(DateTime)
         expression = Column(CHAR)
-        periodstart = Column(CHAR)
-        sliparameterid = Column(Integer)
-        value = Column(DECIMAL())
-        sourceid = Column(Integer)
-        isimplied = Column(Integer)
-        annotationsettings = Column(CHAR)
 
     return SLIRevision
