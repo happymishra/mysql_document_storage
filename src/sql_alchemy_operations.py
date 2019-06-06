@@ -30,8 +30,23 @@ class SQlAlchemyOperations:
     @classmethod
     def get_model(cls, company_id, db):
         conn = cls.db_connector_obj.get_mysql_engine(db=db)
-        session = cls.db_connector_obj.get_mysql_session(conn)
+        session = cls.db_connector_obj.get_sql_alchemy_session(conn)
         return get_sli_revision_model(company_id, session)
+
+    @classmethod
+    def get_local_mysql_data(cls, db, company_id):
+        print "Started fetching data from MySQL company id: {company_id}".format(company_id=company_id)
+
+        start = time.time()
+        query = "SELECT revisiondpid, expression FROM {db}.`{company_id}` " \
+                "WHERE revisiondpid IN (8544784405, 9945967888, 9945967584)".format(db=db, company_id=company_id)
+
+        conn = cls.db_connector_obj.get_mysql_engine(db=db)
+        data = conn.execute(text(query))
+
+        print "Completed fetching data for {db} in {time}".format(db=db, time=time.time() - start)
+
+        return data
 
     @classmethod
     def insert_bulk_data_result(cls, db, model, rows, chunk_size=1000):
@@ -71,6 +86,6 @@ if __name__ == '__main__':
     data = SQlAlchemyOperations.get_data_from_raw_query('slirevision', 13059)
 
     SQlAlchemyOperations.insert_bulk_data_result('mysql_local', model_obj, data)
-    SQlAlchemyOperations.get_data_from_raw_query('mysql_local', 13059)
+    SQlAlchemyOperations.get_local_mysql_data('mysql_local', 13059)
 
     print "Hello"

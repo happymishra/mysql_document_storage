@@ -17,6 +17,9 @@ class MySQLDocumentStore:
         if not self.collection.exists_in_database():
             self.collection = self.db.create_collection(self.company_id)
 
+            self.collection.create_index('revisiondpid',
+                                         {'fields': [{'field': '$.revisiondpid', "type": "BIGINT"}]}).execute()
+
     def populate_mysql_ds(self, rows):
         print "Started populating MySQL Document Storage"
         start = time.time()
