@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, BigInteger, CHAR, DateTime, DECIMAL
+from sqlalchemy import Column, Integer, BigInteger, CHAR, DateTime, DECIMAL, JSON
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -20,5 +20,6 @@ def get_sli_revision_model(table_name, engine):
     class SLIRevision(base):
         revisiondpid = Column(BigInteger, primary_key=True)
         expression = Column(CHAR)
+        computeinfojson = Column(JSON)
 
     return SLIRevision

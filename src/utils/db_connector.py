@@ -1,4 +1,5 @@
 import mysqlx
+import psycopg2
 import pymongo
 from constants import MYSQL_DB_URL, MONGO_DB_URL
 from sqlalchemy import create_engine
@@ -34,6 +35,11 @@ class DBConnector:
     def get_sql_alchemy_session(self, sql_engine):
         session_factory = sessionmaker(bind=sql_engine)
         return scoped_session(session_factory)
+
+    def get_postgre_conn(self, db):
+        db_params = self.config_read_obj.get_config_section(db)
+        return psycopg2.connect(host=db_params['host'], database=db_params['database'], user=db_params['user'],
+                                password=db_params['password'])
 
 
 if __name__ == '__main__':

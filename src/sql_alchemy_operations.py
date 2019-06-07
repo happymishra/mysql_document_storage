@@ -2,6 +2,7 @@ import time
 
 from sqlalchemy.sql import *
 
+from constants import Database
 from models import get_sli_revision_model
 from utils.db_connector import DBConnector
 
@@ -28,6 +29,21 @@ class SQlAlchemyOperations:
         return data
 
     @classmethod
+    def get_computeinfojson(cls, db, company_id):
+        print "Started fetching data from MySQL company id: {company_id}".format(company_id=company_id)
+
+        start = time.time()
+        query = "SELECT revisiondpid, expression, computeinfojson FROM {db}.{company_id}".format(db=db,
+                                                                                                 company_id=company_id)
+
+        conn = cls.db_connector_obj.get_mysql_engine(db=db)
+
+        data = conn.execute(text(query))
+
+        print "Completed fetching data for {db} in {time}".format(db=db, time=time.time() - start)
+        return data
+
+    @classmethod
     def get_model(cls, company_id, db):
         conn = cls.db_connector_obj.get_mysql_engine(db=db)
         session = cls.db_connector_obj.get_sql_alchemy_session(conn)
@@ -38,15 +54,15 @@ class SQlAlchemyOperations:
         print "Started fetching data from MySQL company id: {company_id}".format(company_id=company_id)
 
         start = time.time()
-        query = "SELECT revisiondpid, expression FROM {db}.`{company_id}` " \
-                "WHERE revisiondpid IN (8544784405, 9945967888, 9945967584)".format(db=db, company_id=company_id)
+        query = "SELECT revisiondpid, expression, computeinfojson FROM {db}.`{company_id}` " \
+                "WHERE revisiondpid IN (9529232226, 8117414530, 8117415374)".format(db=db, company_id=company_id)
 
         conn = cls.db_connector_obj.get_mysql_engine(db=db)
-        data = conn.execute(text(query))
+        data = list(conn.execute(text(query)))
 
         print "Completed fetching data for {db} in {time}".format(db=db, time=time.time() - start)
 
-        return data
+        return list(data)
 
     @classmethod
     def insert_bulk_data_result(cls, db, model, rows, chunk_size=1000):
@@ -82,10 +98,10 @@ class SQlAlchemyOperations:
 
 
 if __name__ == '__main__':
-    model_obj = SQlAlchemyOperations.get_model(13059, 'mysql_local')
-    data = SQlAlchemyOperations.get_data_from_raw_query('slirevision', 13059)
+    model_obj = SQlAlchemyOperations.get_model(13059, 'mysql_text')
+    data = SQlAlchemyOperations.get_computeinfojson(Database, 13059)
 
-    SQlAlchemyOperations.insert_bulk_data_result('mysql_local', model_obj, data)
-    SQlAlchemyOperations.get_local_mysql_data('mysql_local', 13059)
+    SQlAlchemyOperations.insert_bulk_data_result('mysql_text', model_obj, data)
+    SQlAlchemyOperations.get_local_mysql_data('mysql_text', 13059)
 
     print "Hello"

@@ -21,3 +21,6 @@ SOURCE_PORT = '27017'
 DESTINATION_HOST = '127.0.0.1'
 DESTINATION_PORT = '27020'
 
+Database = 'sliconsensusrevision'
+test_revisiondpids = (9529232226, 8117414530, 8117415374)
+
