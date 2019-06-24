@@ -2,7 +2,7 @@ import time
 
 from sqlalchemy.sql import *
 
-from constants import Database
+from constants import DATABASE
 from models import get_sli_revision_model
 from utils.db_connector import DBConnector
 

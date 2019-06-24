@@ -14,6 +14,7 @@ DESTINATION_CLIENT = 'mongo_dest'
 MYSQL_DB_URL = "mysql://{0}:{1}@{2}/{3}"
 MONGO_DB_URL = "mongodb://{0}:{1}/"
 
+MONGO_DB_REMOTE_URL = "mongodb://{user}:{password}@{host}:{port}/sliconsensusrevision"
 
 SOURCE_HOST = '127.0.0.1'
 SOURCE_PORT = '27017'
@@ -21,6 +22,13 @@ SOURCE_PORT = '27017'
 DESTINATION_HOST = '127.0.0.1'
 DESTINATION_PORT = '27020'
 
-Database = 'sliconsensusrevision'
+DATABASE = 'sliconsensusrevision'
+
+# DB_TO_MIGRATE = {
+#     'sliconsensusrevision': "revisiondpid, expression, computeinfojson",
+#     'slirevision': "revisiondpid, expression",
+#     'slivaactualsrevision': "revisiondpid, expression, computeinfojson",
+# }
+
 test_revisiondpids = (9529232226, 8117414530, 8117415374)
 
